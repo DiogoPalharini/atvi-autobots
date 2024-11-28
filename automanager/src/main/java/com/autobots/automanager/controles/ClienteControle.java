@@ -55,4 +55,14 @@ public class ClienteControle {
 		Cliente cliente = repositorio.getById(exclusao.getId());
 		repositorio.delete(cliente);
 	}
+
+	@PutMapping("/editar/{id}")
+	public void editarCliente(@PathVariable Long id, @RequestBody Cliente atualizacao) {
+		Cliente clienteExistente = repositorio.findById(id)
+				.orElseThrow(() -> new RuntimeException("Cliente não encontrado com o ID: " + id));
+		ClienteAtualizador atualizador = new ClienteAtualizador();
+		atualizador.atualizar(clienteExistente, atualizacao);
+		repositorio.save(clienteExistente);
+	}
+
 }
